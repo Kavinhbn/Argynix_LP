@@ -1,45 +1,75 @@
 "use client"
 import Link from "next/link"
-import { Bot, Factory, Sprout, Wifi, HomeIcon, Briefcase, Layers, Rocket, ShieldCheck, Zap, Lightbulb, MoveRight, Users } from "lucide-react"
+import { Factory, Sprout, HomeIcon, Briefcase, Layers, Rocket, ShieldCheck, Zap, Lightbulb, MoveRight, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import { useState, useEffect } from 'react'
-
+import { AnimateIcon } from "@/components/animate-ui/icons/icon"
+import { Bot } from "@/components/animate-ui/icons/bot"
+import { Wifi } from "@/components/animate-ui/icons/wifi"
+import { HouseWifi } from "@/components/animate-ui/icons/house-wifi"
+import { CircuitBoard } from "@/components/animate-ui/icons/circuit-board"
+import { RoboArm } from "@/components/animate-ui/icons/robo-arm"
+import { Agri } from "@/components/animate-ui/icons/agri"
 
 const services = [
     {
-        icon: <Wifi className="h-8 w-8" />,
+        icon: (
+            <AnimateIcon>
+                <Wifi className="h-8 w-8" />
+            </AnimateIcon>
+        ),
         title: "IOT Development",
         href: "/services/iot-development",
         description: "End-to-end IoT solutions that connect your devices, collect data, and deliver actionable insights."
     },
     {
-        icon: <Factory className="h-8 w-8" />,
+        icon: (
+            <AnimateIcon>
+                <RoboArm className="h-8 w-8" />
+            </AnimateIcon>
+        ),
         title: "Industrial Automation",
         href: "/services/industrial-automation",
         description: "Advanced automation solutions to streamline your manufacturing and industrial processes."
     },
     {
-        icon: <Bot className="h-8 w-8" />,
+        icon: (
+            <AnimateIcon >
+                <Bot className="h-8 w-8" />
+            </AnimateIcon>
+        ),
         title: "Robotics & AI",
         href: "/services/robotics-ai",
         description: "Intelligent robotics and AI integration to automate complex tasks and drive efficiency."
     },
     {
-        icon: <Sprout className="h-8 w-8" />,
+        icon: (
+            <AnimateIcon >
+                <CircuitBoard className="h-8 w-8" />
+            </AnimateIcon>
+        ),
         title: "Electronics R&D",
         href: "/services/electronics-rd",
         description: "Custom electronics design and development from concept to production-ready solutions."
     },
     {
-        icon: <HomeIcon className="h-8 w-8" />,
+        icon: (
+            <AnimateIcon>
+                <HouseWifi className="h-8 w-8" />
+            </AnimateIcon>
+        ),
         title: "Smart Home Systems",
         href: "/services/smart-home",
         description: "Connected home solutions that enhance comfort, security, and energy efficiency."
     },
     {
-        icon: <Briefcase className="h-8 w-8" />,
+        icon: (
+            <AnimateIcon >
+                <Agri className="h-8 w-8" />
+            </AnimateIcon>
+        ),
         title: "Agriculture Tech",
         href: "/services/agri-tech",
         description: "Technology solutions designed to improve agricultural yield and sustainability."
@@ -168,22 +198,22 @@ export default function Home() {
         const radius = 260; // Distance from center
         for (let i = 0; i < 6; i++) {
             const angle = (i * 60) * (Math.PI / 180); // Convert to radians, 60 degrees apart
-            if(i%2!==0){
+            if (i % 2 !== 0) {
                 icons.push({
                     id: i,
                     angle: angle,
-                    radius: radius-40,
+                    radius: radius - 40,
                     serviceIndex: i
                 })
             }
-           else{
-            icons.push({
-                id: i,
-                angle: angle,
-                radius: radius,
-                serviceIndex: i
-            });
-        }
+            else {
+                icons.push({
+                    id: i,
+                    angle: angle,
+                    radius: radius,
+                    serviceIndex: i
+                });
+            }
         }
         setFloatingIcons(icons);
     }, []);
@@ -229,7 +259,7 @@ export default function Home() {
                         <div className="hidden md:flex items-center justify-center h-[500px] animate-in fade-in slide-in-from-right duration-700 relative">
                             <GlobeAnimation />
 
-                            {/* Floating service icons orbiting around the globe */}
+                            {/* Floating service icons around the globe */}
                             {floatingIcons.map((icon) => {
                                 // Calculate position based on angle and radius
                                 const x = 50 + (icon.radius * Math.cos(icon.angle)) / 5; // Scale down for container
@@ -248,8 +278,38 @@ export default function Home() {
                                             setActiveService(icon.serviceIndex);
                                         }}
                                     >
-                                        <div className="flex h-19 w-19 items-center justify-center text-primary">
-                                            {services[icon.serviceIndex]?.icon}
+                                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary border-2 border-primary ">
+                                            {/* Use animated icons for floating service icons */}
+                                            {icon.serviceIndex === 0 && (
+                                                <AnimateIcon animateOnHover>
+                                                    <Wifi className="h-6 w-6" />
+                                                </AnimateIcon>
+                                            )}
+                                            {icon.serviceIndex === 1 && (
+                                                <AnimateIcon animateOnHover>
+                                                    <RoboArm className="h-6 w-6" />
+                                                </AnimateIcon>
+                                            )}
+                                            {icon.serviceIndex === 2 && (
+                                                <AnimateIcon animateOnHover>
+                                                    <Bot className="h-6 w-6" />
+                                                </AnimateIcon>
+                                            )}
+                                            {icon.serviceIndex === 3 && (
+                                                <AnimateIcon animateOnHover>
+                                                    <CircuitBoard className="h-6 w-6" />
+                                                </AnimateIcon>
+                                            )}
+                                            {icon.serviceIndex === 4 && (
+                                                <AnimateIcon animateOnHover>
+                                                    <HouseWifi className="h-6 w-6" />
+                                                </AnimateIcon>
+                                            )}
+                                            {icon.serviceIndex === 5 && (
+                                                <AnimateIcon animateOnHover>
+                                                    <Agri className="h-6 w-6" />
+                                                </AnimateIcon>
+                                            )}
                                         </div>
                                     </div>
                                 );
@@ -271,7 +331,7 @@ export default function Home() {
                                         </button>
                                     </div>
                                     <div className="flex items-center justify-center mb-4">
-                                        <div className="flex h-16 w-16 items-center justify-center bg-primary/10 text-primary rounded-full">
+                                        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
                                             {services[activeService]?.icon}
                                         </div>
                                     </div>
