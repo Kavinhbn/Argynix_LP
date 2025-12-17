@@ -16,7 +16,7 @@ import { Agri } from "@/components/animate-ui/icons/agri"
 const services = [
     {
         icon: (
-            <AnimateIcon>
+            <AnimateIcon animateOnHover={true}>
                 <Wifi className="h-8 w-8" />
             </AnimateIcon>
         ),
@@ -26,7 +26,7 @@ const services = [
     },
     {
         icon: (
-            <AnimateIcon>
+            <AnimateIcon animateOnHover={true}>
                 <RoboArm className="h-8 w-8" />
             </AnimateIcon>
         ),
@@ -36,7 +36,7 @@ const services = [
     },
     {
         icon: (
-            <AnimateIcon >
+            <AnimateIcon animateOnHover={true}>
                 <Bot className="h-8 w-8" />
             </AnimateIcon>
         ),
@@ -46,7 +46,7 @@ const services = [
     },
     {
         icon: (
-            <AnimateIcon >
+            <AnimateIcon animateOnHover={true} >
                 <CircuitBoard className="h-8 w-8" />
             </AnimateIcon>
         ),
@@ -56,7 +56,7 @@ const services = [
     },
     {
         icon: (
-            <AnimateIcon>
+            <AnimateIcon animateOnHover={true}>
                 <HouseWifi className="h-8 w-8" />
             </AnimateIcon>
         ),
@@ -66,7 +66,7 @@ const services = [
     },
     {
         icon: (
-            <AnimateIcon >
+            <AnimateIcon animateOnHover={true}>
                 <Agri className="h-8 w-8" />
             </AnimateIcon>
         ),
@@ -150,44 +150,13 @@ const AnimatedGrid = () => (
     </div>
 );
 
-const RotatingCube = () => (
-    <div className="w-full h-full flex items-center justify-center [perspective:1000px]">
-        <div className="w-48 h-48 md:w-64 md:h-64 relative [transform-style:preserve-3d] animate-spin-cube">
-            {['front', 'back', 'left', 'right', 'top', 'bottom'].map((side, i) => {
-                const rotation = [
-                    'rotateY(0deg)', 'rotateY(180deg)',
-                    'rotateY(-90deg)', 'rotateY(90deg)',
-                    'rotateX(90deg)', 'rotateX(-90deg)'
-                ][i];
-                const translateZ = "128px";
-                const mobileTranslateZ = "96px";
-                return (
-                    <div
-                        key={side}
-                        className={cn(
-                            "absolute w-48 h-48 md:w-64 md:h-64 border border-primary/20 bg-background/50 backdrop-blur-sm flex items-center justify-center",
-                            "flex items-center justify-center p-4"
-                        )}
-                        style={{ transform: `${rotation} translateZ(var(--translate-z))` }}
-                    >
-                        <style>{`:root { --translate-z: ${mobileTranslateZ}; } @media (min-width: 768px) { :root { --translate-z: ${translateZ}; } }`}</style>
-                        <div className="text-center">
-                            {benefits[i] && (
-                                <>
-                                    <div className="mx-auto flex h-12 w-12 md:h-16 md:w-16 items-center justify-center rounded-full bg-primary/10 text-primary mb-3">
-                                        {benefits[i].icon}
-                                    </div>
-                                    <h3 className="text-sm md:text-base font-semibold">{benefits[i].title}</h3>
-                                </>
-                            )}
-                        </div>
-                    </div>
-                )
-            })}
-        </div>
-    </div>
-);
-
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselPrevious,
+    CarouselNext,
+} from "@/components/ui/carousel"
 
 export default function Home() {
     const [activeService, setActiveService] = useState<number | null>(null);
@@ -383,117 +352,171 @@ export default function Home() {
                             We provide end-to-end services to transform your vision into reality.
                         </p>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
-                        {services.map((service, index) => (
-                            <div
-                                key={service.title}
-                                className="group relative"
-                            >
-                                <Link
-                                    href={service.href}
-                                    className="block h-full"
-                                >
-                                    <div className="relative h-full overflow-hidden rounded-3xl border-2 border-black bg-white p-8 transition-all duration-700 hover:shadow-2xl hover:-translate-y-2">
-                                        {/* Particle effect container */}
-                                        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                                            {[...Array(20)].map((_, i) => (
-                                                <div
-                                                    key={i}
-                                                    className="absolute h-1 w-1 w-1 bg-black rounded-full opacity-0 transition-all duration-1000 group-hover:opacity-20"
-                                                    style={{
-                                                        top: `${(i * 13) % 100}%`,
-                                                        left: `${(i * 17) % 100}%`,
-                                                        animation: `float ${5 + (i % 10)}s infinite ease-in-out`,
-                                                        animationDelay: `${i % 2}s`
-                                                    }}
-                                                ></div>
-                                            ))}
+
+                    {/* Carousel for services */}
+                    <div className="mt-16 relative ">
+                        <Carousel
+                            opts={{
+                                align: "start",
+                                loop: true,
+                            }}
+                            className="w-full"
+                        >
+                            <CarouselContent className="-ml-4">
+                                {services.map((service) => (
+                                    <CarouselItem key={service.title} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                                        <div className="group relative">
+                                            <Link
+                                                href={service.href}
+                                                className="block h-full"
+                                            >
+                                                <div className="relative h-full overflow-hidden rounded-full border-2 border-black bg-white p-9 m-5 transition-all duration-700 hover:shadow-5px hover:-translate-y-1">
+                                                    {/* Particle effect container */}
+                                                    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                                                        {[...Array(20)].map((_, i) => (
+                                                            <div
+                                                                key={i}
+                                                                className="absolute h-1 w-1 w-1 bg-black rounded-full opacity-0 transition-all duration-1000 group-hover:opacity-20"
+                                                                style={{
+                                                                    top: `${(i * 23) % 100}%`,
+                                                                    left: `${(i * 27) % 100}%`,
+                                                                    animation: `float ${5 + (i % 10)}s infinite ease-in-out`,
+                                                                    animationDelay: `${i % 2}s`
+                                                                }}
+                                                            ></div>
+                                                        ))}
+                                                    </div>
+
+                                                    {/* Icon with wave animation */}
+                                                    <div className="relative mb-8 flex justify-center">
+                                                        <div className="relative flex h-24 w-24 items-center justify-center rounded-full border-2 border-primary bg-primary/10 text-primary">
+                                                            <div className="transition-transform duration-700 group-hover:scale-110">
+                                                                {service.icon}
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Content with staggered reveal */}
+                                                    <div className="relative text-center">
+                                                        <h3 className="mb-4 text-2xl font-bold text-black transition-colors duration-500 group-hover:text-black relative inline-block">
+                                                            {service.title}
+                                                            <div className="absolute bottom-0 left-0 h-1 w-full bg-black transform scale-x-0 transition-transform duration-700 group-hover:scale-x-100 origin-left"></div>
+                                                        </h3>
+
+                                                        {/* Description with typewriter effect on hover */}
+                                                        <div className="overflow-hidden max-h-0 transition-all duration-700 group-hover:max-h-32">
+                                                            <p className="text-gray-600 mb-6 transition-all duration-700 transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100">
+                                                                {service.description}
+                                                            </p>
+                                                        </div>
+
+                                                        {/* Animated CTA button */}
+                                                        <div className="transform transition-all duration-700 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-4">
+                                                            <div className="inline-flex items-center rounded-full bg-black px-6 py-3 text-white transition-all duration-500 hover:bg-gray-800 hover:px-8">
+                                                                <span className="font-semibold">Explore Solutions</span>
+                                                                <svg
+                                                                    className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
+                                                                    fill="none"
+                                                                    stroke="currentColor"
+                                                                    viewBox="0 0 24 24"
+                                                                >
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Corner decorations */}
+                                                    <div className="absolute top-4 right-4 w-8 h-8 opacity-0 transition-all duration-700 group-hover:opacity-20"></div>
+                                                    <div className="absolute bottom-4 left-4 w-8 h-8 opacity-0 transition-all duration-700 group-hover:opacity-20"></div>
+                                                </div>
+                                            </Link>
                                         </div>
-
-                                        {/* Icon with wave animation */}
-                                        <div className="relative mb-8 flex justify-center">
-                                            <div className="relative flex h-24 w-24 items-center justify-center rounded-2xl bg-black text-white transition-all duration-700 group-hover:scale-110 group-hover:rotate-12">
-                                                <div className="transition-transform duration-700 group-hover:scale-110">
-                                                    {service.icon}
-                                                </div>
-
-                                                {/* Wave rings */}
-                                                <div className="absolute inset-0 flex items-center justify-center">
-                                                    <div className="h-28 w-28 rounded-full border border-black opacity-0 transition-all duration-1000 group-hover:opacity-30" style={{ animation: 'ripple 2s infinite' }}></div>
-                                                </div>
-                                                <div className="absolute inset-0 flex items-center justify-center">
-                                                    <div className="h-32 w-32 rounded-full border border-black opacity-0 transition-all duration-1000 group-hover:opacity-20" style={{ animation: 'ripple 2s infinite 0.5s' }}></div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {/* Content with staggered reveal */}
-                                        <div className="relative text-center">
-                                            <h3 className="mb-4 text-2xl font-bold text-black transition-colors duration-500 group-hover:text-black relative inline-block">
-                                                {service.title}
-                                                <div className="absolute bottom-0 left-0 h-1 w-full bg-black transform scale-x-0 transition-transform duration-700 group-hover:scale-x-100 origin-left"></div>
-                                            </h3>
-
-                                            {/* Description with typewriter effect on hover */}
-                                            <div className="overflow-hidden max-h-0 transition-all duration-700 group-hover:max-h-32">
-                                                <p className="text-gray-600 mb-6 transition-all duration-700 transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100">
-                                                    Innovative solutions designed to transform your business with cutting-edge technology.
-                                                </p>
-                                            </div>
-
-                                            {/* Animated CTA button */}
-                                            <div className="transform transition-all duration-700 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-4">
-                                                <div className="inline-flex items-center rounded-full bg-black px-6 py-3 text-white transition-all duration-500 hover:bg-gray-800 hover:px-8">
-                                                    <span className="font-semibold">Explore Solutions</span>
-                                                    <svg
-                                                        className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {/* Corner decorations */}
-                                        <div className="absolute top-4 right-4 w-8 h-8 opacity-0 transition-all duration-700 group-hover:opacity-20"></div>
-                                        <div className="absolute bottom-4 left-4 w-8 h-8 opacity-0 transition-all duration-700 group-hover:opacity-20"></div>
-                                    </div>
-                                </Link>
-                            </div>
-                        ))}
+                                    </CarouselItem>
+                                ))}
+                            </CarouselContent>
+                           <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-full" />
+                            <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full" />
+                        </Carousel>
+                       
                     </div>
 
                     {/* Custom animations */}
                     <style jsx>{`
                         @keyframes float {
-                            0%, 100% {
-                                transform: translateY(0) translateX(0);
-                            }
-                            25% {
-                                transform: translateY(-20px) translateX(10px);
-                            }
-                            50% {
-                                transform: translateY(-10px) translateX(-15px);
-                            }
-                            75% {
-                                transform: translateY(-30px) translateX(5px);
-                            }
+                          0%, 100% {
+                            transform: translateY(0) translateX(0);
+                          }
+                          25% {
+                            transform: translateY(-20px) translateX(10px);
+                          }
+                          50% {
+                            transform: translateY(-10px) translateX(-15px);
+                          }
+                          75% {
+                            transform: translateY(-30px) translateX(5px);
+                          }
+                        }
+
+                        @keyframes ripple {
+                          0% {
+                            transform: scale(0.8);
+                            opacity: 0.3;
+                          }
+                          100% {
+                            transform: scale(1.5);
+                            opacity: 0;
+                          }
                         }
                         
-                        @keyframes ripple {
-                            0% {
-                                transform: scale(0.8);
-                                opacity: 0.3;
-                            }
-                            100% {
-                                transform: scale(1.5);
-                                opacity: 0;
-                            }
+                        /* Carousel item entrance animations */
+                        @keyframes carouselEnterLeft {
+                          0% {
+                            transform: translateX(-50px) rotate(-5deg);
+                            opacity: 0;
+                          }
+                          100% {
+                            transform: translateX(0) rotate(0);
+                            opacity: 1;
+                          }
                         }
-                    `}</style>
+                        
+                        @keyframes carouselEnterRight {
+                          0% {
+                            transform: translateX(50px) rotate(5deg);
+                            opacity: 0;
+                          }
+                          100% {
+                            transform: translateX(0) rotate(0);
+                            opacity: 1;
+                          }
+                        }
+                        
+                        @keyframes carouselEnterBottom {
+                          0% {
+                            transform: translateY(50px) scale(0.9);
+                            opacity: 0;
+                          }
+                          100% {
+                            transform: translateY(0) scale(1);
+                            opacity: 1;
+                          }
+                        }
+                        
+                        .carousel-content > div:nth-child(3n+1) {
+                          animation: carouselEnterLeft 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+                        }
+                        
+                        .carousel-content > div:nth-child(3n+2) {
+                          animation: carouselEnterBottom 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+                        }
+                        
+                        .carousel-content > div:nth-child(3n+3) {
+                          animation: carouselEnterRight 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+                        }
+                      `}</style>
                 </div>
             </section>
 
