@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState, useRef } from "react"
 import useEmblaCarousel from "embla-carousel-react"
 import { EmblaCarouselType, EmblaOptionsType } from "embla-carousel"
 import { cn } from "@/lib/utils"
@@ -29,6 +29,7 @@ export function FocusCardsCarousel({ items, options }: FocusCardsCarouselProps) 
     })
 
     const [selectedIndex, setSelectedIndex] = useState(0)
+    const isScrolling = useRef(false)
 
     const onScroll = useCallback((emblaApi: EmblaCarouselType) => {
         const engine = emblaApi.internalEngine()
@@ -53,9 +54,9 @@ export function FocusCardsCarousel({ items, options }: FocusCardsCarouselProps) 
             const scale = 1 - Math.min(absDiff * 0.4, 0.25) // Less drastic scale down (min 0.75)
 
             // Blur: Only blur items that are NOT the center or immediate neighbors
-            // i.e., absDiff > 1.2 (approx)
-            // Stronger blur for items further away to indicate they are "Out of focus/view"
-            const blur = absDiff <= 0.2 ? 0 : Math.min((absDiff - 0.2) * 20, 12)
+            // i.e., absDiff > 1.25 (approx)
+            // This ensures the 3 visible cards are always clear
+            const blur = absDiff <= 1.25 ? 0 : Math.min((absDiff - 1.25) * 10, 5)
 
             // Opacity: User requested opacity 1 (no fade)
             const opacity = 1
@@ -112,17 +113,32 @@ export function FocusCardsCarousel({ items, options }: FocusCardsCarouselProps) 
         emblaApi.on("select", onSelect)
         emblaApi.on("reInit", onSelect)
 
+        const onSettle = () => {
+            isScrolling.current = false
+        }
+        emblaApi.on("settle", onSettle)
+
         return () => {
             emblaApi.off("reInit", onScroll)
             emblaApi.off("scroll", onScroll)
             emblaApi.off("select", onSelect)
             emblaApi.off("reInit", onSelect)
+            emblaApi.off("settle", onSettle)
         }
     }, [emblaApi, onScroll, onSelect])
 
     const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi])
     const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi])
     const scrollTo = useCallback((index: number) => emblaApi && emblaApi.scrollTo(index), [emblaApi])
+
+    const handleHover = useCallback((index: number) => {
+        if (!emblaApi) return
+        if (isScrolling.current) return
+        if (index === selectedIndex) return
+
+        isScrolling.current = true
+        emblaApi.scrollTo(index)
+    }, [emblaApi, selectedIndex])
 
     // Helper to check if a dot is a neighbor (prev or next) accounting for loop
     const isNeighbor = (index: number) => {
@@ -134,14 +150,33 @@ export function FocusCardsCarousel({ items, options }: FocusCardsCarouselProps) 
 
     return (
         <div className="relative w-full max-w-7xl mx-auto px-12 md:px-20">
+            <style jsx global>{`
+                @keyframes type-reveal {
+                    0% { opacity: 0; transform: translateY(2px); }
+                    100% { opacity: 1; transform: translateY(0); }
+                }
+                @keyframes shimmer {
+                    0% { transform: translateX(-100%); }
+                    100% { transform: translateX(100%); }
+                }
+                .group\\/card:hover .animate-type-char {
+                    animation: type-reveal 0.3s forwards;
+                }
+            `}</style>
             {/* Carousel Container */}
             <div className="overflow-hidden py-10" ref={emblaRef}>
                 <div className="flex touch-pan-y -ml-4">
                     {items.map((item, index) => (
-                        <div className="flex-[0_0_80%] md:flex-[0_0_40%] lg:flex-[0_0_30%] min-w-0 pl-4 relative py-10" key={index}>
+                        <div
+                            className="flex-[0_0_80%] md:flex-[0_0_40%] lg:flex-[0_0_30%] min-w-0 pl-4 relative py-10"
+                            key={index}
+                        >
                             <div className="slide_card transition-all duration-300 ease-out h-full select-none">
                                 {/* Card Design */}
-                                <div className="inner_card bg-[#1a1a1a] rounded-3xl p-8 h-full flex flex-col items-center text-center relative border border-white/5 shadow-2xl transition-all duration-300">
+                                <div
+                                    className="inner_card bg-[#1a1a1a] rounded-3xl p-8 h-full flex flex-col items-center text-center relative border border-white/5 shadow-2xl transition-all duration-300 group/card cursor-pointer"
+                                    onMouseEnter={() => handleHover(index)}
+                                >
                                     {/* Top Icon Circle */}
                                     <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center -mt-16 mb-6 border-4 border-primary group-hover:scale-110 transition-transform duration-500">
                                         <div className="text-primary">
@@ -209,3 +244,23 @@ export function FocusCardsCarousel({ items, options }: FocusCardsCarouselProps) 
         </div>
     )
 }
+
+const TypingText = ({ text }: { text: string }) => {
+    return (
+        <span className="inline-flex  whitespace-nowrap">
+            {text.split("").map((char, i) => (
+                <span
+                    key={i}
+                    className="animate-type-char opacity-1 group-hover/card:opacity-0"
+                    style={{
+                        animationDelay: `${i * 50}ms`,
+                        animationFillMode: 'forwards'
+                    }}
+                >
+                    {char === " " ? "\u00A0" : char}
+                </span>
+            ))}
+        </span>
+    )
+}
+
