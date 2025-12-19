@@ -151,6 +151,7 @@ const AnimatedGrid = () => (
 );
 
 import { FocusCardsCarousel } from "@/components/focus-cards-carousel"
+import { RevealText } from "@/components/ui/reveal-text"
 
 export default function Home() {
     const [activeService, setActiveService] = useState<number | null>(null);
@@ -202,12 +203,16 @@ export default function Home() {
                 <div className="container mx-auto max-w-7xl px-4 relative z-10">
                     <div className="grid md:grid-cols-2 gap-12 items-center min-h-[calc(100vh-5rem)] py-20">
                         <div className="flex flex-col items-center md:items-start space-y-6 text-center md:text-left animate-in fade-in slide-in-from-left duration-700">
-                            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-foreground">
-                                Building Tomorrow's Connected World
-                            </h1>
-                            <p className="max-w-xl text-lg text-muted-foreground md:text-xl">
-                                We turn your innovative ideas into smart, connected solutions. From concept to deployment, we engineer the future of IoT and automation.
-                            </p>
+                            <RevealText>
+                                <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-foreground">
+                                    Building Tomorrow's Connected World
+                                </h1>
+                            </RevealText>
+                            <div className="max-w-xl text-lg text-muted-foreground md:text-xl">
+                                <RevealText>
+                                    We turn your innovative ideas into smart, connected solutions. From concept to deployment, we engineer the future of IoT and automation.
+                                </RevealText>
+                            </div>
                             <div className="flex flex-col sm:flex-row gap-4">
                                 <Button asChild size="lg">
                                     <Link href="/services">
