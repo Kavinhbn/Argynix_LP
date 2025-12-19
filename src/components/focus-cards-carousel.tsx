@@ -56,7 +56,7 @@ export function FocusCardsCarousel({ items, options }: FocusCardsCarouselProps) 
             // Blur: Only blur items that are NOT the center or immediate neighbors
             // i.e., absDiff > 1.25 (approx)
             // This ensures the 3 visible cards are always clear
-            const blur = absDiff <= 1.25 ? 0 : Math.min((absDiff - 1.25) * 10, 5)
+            const blur = absDiff <= 0.2 ? 0 : Math.min((absDiff - 0.2) * 10, 5)
 
             // Opacity: User requested opacity 1 (no fade)
             const opacity = 1
