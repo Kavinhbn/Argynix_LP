@@ -150,13 +150,7 @@ const AnimatedGrid = () => (
     </div>
 );
 
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselPrevious,
-    CarouselNext,
-} from "@/components/ui/carousel"
+import { FocusCardsCarousel } from "@/components/focus-cards-carousel"
 
 export default function Home() {
     const [activeService, setActiveService] = useState<number | null>(null);
@@ -354,93 +348,20 @@ export default function Home() {
                     </div>
 
                     {/* Carousel for services */}
-                    <div className="mt-16 relative ">
-                        <Carousel
-                            opts={{
-                                align: "start",
-                                loop: true,
-                            }}
-                            className="w-full"
-                        >
-                            <CarouselContent className="-ml-4">
-                                {services.map((service) => (
-                                    <CarouselItem key={service.title} className="pl-4 md:basis-1/2 lg:basis-1/3">
-                                        <div className="group relative">
-                                            <Link
-                                                href={service.href}
-                                                className="block h-full"
-                                            >
-                                                <div className="relative h-full overflow-hidden rounded-full border-2 border-black bg-white p-9 m-5 transition-all duration-700 hover:shadow-5px hover:-translate-y-1">
-                                                    {/* Particle effect container */}
-                                                    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                                                        {[...Array(20)].map((_, i) => (
-                                                            <div
-                                                                key={i}
-                                                                className="absolute h-1 w-1 w-1 bg-black rounded-full opacity-0 transition-all duration-1000 group-hover:opacity-20"
-                                                                style={{
-                                                                    top: `${(i * 23) % 100}%`,
-                                                                    left: `${(i * 27) % 100}%`,
-                                                                    animation: `float ${5 + (i % 10)}s infinite ease-in-out`,
-                                                                    animationDelay: `${i % 2}s`
-                                                                }}
-                                                            ></div>
-                                                        ))}
-                                                    </div>
+                    <div className="mt-16 w-full max-w-[1400px] mx-auto">
+                        <div className="relative">
+                            {/* Background gradient for depth */}
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[500px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
 
-                                                    {/* Icon with wave animation */}
-                                                    <div className="relative mb-8 flex justify-center">
-                                                        <div className="relative flex h-24 w-24 items-center justify-center rounded-full border-2 border-primary bg-primary/10 text-primary">
-                                                            <div className="transition-transform duration-700 group-hover:scale-110">
-                                                                {service.icon}
-                                                            </div>
-
-
-                                                        </div>
-                                                    </div>
-
-                                                    {/* Content with staggered reveal */}
-                                                    <div className="relative text-center">
-                                                        <h3 className="mb-4 text-2xl font-bold text-black transition-colors duration-500 group-hover:text-black relative inline-block">
-                                                            {service.title}
-                                                            <div className="absolute bottom-0 left-0 h-1 w-full bg-black transform scale-x-0 transition-transform duration-700 group-hover:scale-x-100 origin-left"></div>
-                                                        </h3>
-
-                                                        {/* Description with typewriter effect on hover */}
-                                                        <div className="overflow-hidden max-h-0 transition-all duration-700 group-hover:max-h-32">
-                                                            <p className="text-gray-600 mb-6 transition-all duration-700 transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100">
-                                                                {service.description}
-                                                            </p>
-                                                        </div>
-
-                                                        {/* Animated CTA button */}
-                                                        <div className="transform transition-all duration-700 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-4">
-                                                            <div className="inline-flex items-center rounded-full bg-black px-6 py-3 text-white transition-all duration-500 hover:bg-gray-800 hover:px-8">
-                                                                <span className="font-semibold">Explore Solutions</span>
-                                                                <svg
-                                                                    className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
-                                                                    fill="none"
-                                                                    stroke="currentColor"
-                                                                    viewBox="0 0 24 24"
-                                                                >
-                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                                                </svg>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    {/* Corner decorations */}
-                                                    <div className="absolute top-4 right-4 w-8 h-8 opacity-0 transition-all duration-700 group-hover:opacity-20"></div>
-                                                    <div className="absolute bottom-4 left-4 w-8 h-8 opacity-0 transition-all duration-700 group-hover:opacity-20"></div>
-                                                </div>
-                                            </Link>
-                                        </div>
-                                    </CarouselItem>
-                                ))}
-                            </CarouselContent>
-                           <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-full" />
-                            <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full" />
-                        </Carousel>
-                       
+                            <FocusCardsCarousel
+                                items={services.map(s => ({
+                                    title: s.title,
+                                    description: s.description,
+                                    icon: s.icon,
+                                    href: s.href
+                                }))}
+                            />
+                        </div>
                     </div>
 
                     {/* Custom animations */}
