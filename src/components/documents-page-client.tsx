@@ -57,7 +57,7 @@ const documents = [
         date: 'Aug 10, 2024',
         fileType: 'PDF',
         fileSize: '3.5 MB',
-        category: 'Unknown' // Mapped manually or strictly typed later
+        category: 'Datasheet' 
     },
     {
         id: 6,
@@ -195,6 +195,7 @@ export function DocumentsPageClient() {
                                         </div>
                                     </div>
 
+
                                     <h3 className="text-xl font-bold mb-3 leading-tight group-hover:text-primary transition-colors">{doc.title}</h3>
                                     <p className="text-muted-foreground text-sm leading-relaxed mb-8 flex-grow">
                                         {doc.description}
@@ -210,8 +211,6 @@ export function DocumentsPageClient() {
                                         </Button>
                                     </div>
 
-                                    {/* Decorative Gradient */}
-                                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary/0 via-primary/50 to-primary/0 scale-x-0 group-hover:scale-x-100 transition-transform duration-700" />
                                 </div>
                             </motion.div>
                         ))}

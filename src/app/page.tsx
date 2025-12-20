@@ -76,38 +76,6 @@ const services = [
     },
 ];
 
-const benefits = [
-    {
-        icon: <Lightbulb className="h-8 w-8 text-primary" />,
-        title: "Pioneering Spirit",
-        description: "We thrive on innovation and constantly explore new frontiers in technology."
-    },
-    {
-        icon: <Zap className="h-8 w-8 text-primary" />,
-        title: "Agile & Adaptive",
-        description: "We respond quickly to change and tailor solutions to fit your exact needs."
-    },
-    {
-        icon: <ShieldCheck className="h-8 w-8 text-primary" />,
-        title: "Quality First",
-        description: "We are committed to delivering robust and reliable high-quality solutions."
-    },
-    {
-        icon: <Users className="h-8 w-8 text-primary" />,
-        title: "Client-Centric",
-        description: "Your success is our priority. We build partnerships based on trust and results."
-    },
-    {
-        icon: <Rocket className="h-8 w-8 text-primary" />,
-        title: "Future-Focused",
-        description: "We build solutions that are scalable, sustainable, and ready for tomorrow."
-    },
-    {
-        icon: <Layers className="h-8 w-8 text-primary" />,
-        title: "End-to-End Solutions",
-        description: "From concept to deployment, we manage every step of the product lifecycle."
-    },
-]
 
 const GlobeAnimation = () => (
     <div className="relative w-full h-full flex items-center justify-center">
@@ -159,9 +127,9 @@ export default function Home() {
 
     useEffect(() => {
         const icons = [];
-        const radius = 260; // Distance from center
+        const radius = 260; 
         for (let i = 0; i < 6; i++) {
-            const angle = (i * 60) * (Math.PI / 180); // Convert to radians, 60 degrees apart
+            const angle = (i * 60) * (Math.PI / 180); 
             if (i % 2 !== 0) {
                 icons.push({
                     id: i,
