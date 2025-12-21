@@ -1,10 +1,12 @@
 "use client"
 import Link from "next/link"
-import { Factory, Sprout, HomeIcon, Briefcase, Layers, Rocket, ShieldCheck, Zap, Lightbulb, MoveRight, Users } from "lucide-react"
+import { Factory, Sprout, HomeIcon, Briefcase, Layers, Rocket, ShieldCheck, Zap, Lightbulb, MoveRight, Users, CheckCircle, ArrowRight, Star, Award, TrendingUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import { useState, useEffect } from 'react'
+import Image from "next/image"
+import { motion } from "motion/react"
 import { AnimateIcon } from "@/components/animate-ui/icons/icon"
 import { Bot } from "@/components/animate-ui/icons/bot"
 import { Wifi } from "@/components/animate-ui/icons/wifi"
@@ -76,6 +78,65 @@ const services = [
     },
 ];
 
+const benefits = [
+    {
+        icon: <Lightbulb className="h-8 w-8" />,
+        title: "Pioneering Spirit",
+        description: "We thrive on innovation and constantly explore new frontiers in technology."
+    },
+    {
+        icon: <Zap className="h-8 w-8" />,
+        title: "Agile & Adaptive",
+        description: "We respond quickly to change and tailor solutions to fit your exact needs."
+    },
+    {
+        icon: <ShieldCheck className="h-8 w-8" />,
+        title: "Quality First",
+        description: "We are committed to delivering robust and reliable high-quality solutions."
+    },
+    {
+        icon: <Users className="h-8 w-8" />,
+        title: "Client-Centric",
+        description: "Your success is our priority. We build partnerships based on trust and results."
+    },
+    {
+        icon: <Rocket className="h-8 w-8" />,
+        title: "Future-Focused",
+        description: "We build solutions that are scalable, sustainable, and ready for tomorrow."
+    },
+    {
+        icon: <Layers className="h-8 w-8" />,
+        title: "End-to-End Solutions",
+        description: "From concept to deployment, we manage every step of the product lifecycle."
+    },
+];
+
+const projects = [
+    {
+        title: "Smart Factory Overhaul",
+        category: "Industrial Automation",
+        description: "Complete digitalization of a manufacturing floor, increasing efficiency by 40%."
+    },
+    {
+        title: "Agri-Drone Fleet",
+        category: "Robotics & AI",
+        description: "Autonomous drone system for precision agriculture and crop monitoring."
+    },
+    {
+        title: "Connected City Grid",
+        category: "IoT Infrastructure",
+        description: "City-wide sensor network for real-time traffic and energy management."
+    }
+];
+
+const trustProofs = [
+    { name: "TechCorp", logo: "TC" },
+    { name: "InnovateX", logo: "IX" },
+    { name: "FutureSystems", logo: "FS" },
+    { name: "GlobalGrid", logo: "GG" },
+    { name: "AutoMotive", logo: "AM" },
+];
+
 
 const GlobeAnimation = () => (
     <div className="relative w-full h-full flex items-center justify-center">
@@ -127,9 +188,9 @@ export default function Home() {
 
     useEffect(() => {
         const icons = [];
-        const radius = 260; 
+        const radius = 260;
         for (let i = 0; i < 6; i++) {
-            const angle = (i * 60) * (Math.PI / 180); 
+            const angle = (i * 60) * (Math.PI / 180);
             if (i % 2 !== 0) {
                 icons.push({
                     id: i,
@@ -173,7 +234,10 @@ export default function Home() {
                         <div className="flex flex-col items-center md:items-start space-y-6 text-center md:text-left animate-in fade-in slide-in-from-left duration-700">
                             <RevealText>
                                 <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-foreground">
-                                    Building Tomorrow's Connected World
+                                    Building Tomorrow's <br className="hidden md:block" />
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-black to-secondary animate-gradient-x">
+                                        Connected World
+                                    </span> 
                                 </h1>
                             </RevealText>
                             <div className="max-w-xl text-lg text-muted-foreground md:text-xl">
@@ -294,38 +358,105 @@ export default function Home() {
                 </div>
             </section>
 
-            <section id="about" className="w-full py-16 md:py-24 bg-secondary">
-                <div className="container mx-auto max-w-7xl px-4">
-                    <div className="grid lg:grid-cols-5 gap-12 items-center">
-                        <div className="lg:col-span-2 text-center lg:text-left">
-                            <p className="text-3xl font-bold tracking-tight sm:text-4xl">
-                                Adaptive, solution-driven, and approachable.
-                            </p>
-                        </div>
-                        <div className="lg:col-span-3 text-muted-foreground space-y-4 text-lg text-center lg:text-left">
-                            <p>At Argynix, we deliver innovative and customizable solutions in IoT, industrial automation, robotics integration, and electronics product development. We combine cutting-edge technology with practical engineering to help businesses automate, connect, and innovate efficiently.</p>
-                            <p>Our mission is to design and develop tailored solutions — whether starting from scratch or enhancing your existing systems — to meet your exact requirements. No matter the challenge, our team stays focused and ready to provide the right answers and exceptional service at every stage of your project.</p>
-                        </div>
+            {/* Why Choose Us Section - Redesigned */}
+            <section className="w-full py-24 bg-background relative z-10 overflow-hidden">
+                {/* Background decoration elements */}
+                <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+                    <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl opacity-50 mix-blend-multiply" />
+                    <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl opacity-50 mix-blend-multiply" />
+                </div>
+
+                <div className="container mx-auto max-w-7xl px-4 relative z-20">
+                    <div className="text-center mb-20 space-y-4">
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, ease: "easeOut" }}
+                            viewport={{ once: false, amount: 0.3 }}
+                        >
+                            <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-foreground uppercase">
+                                Why <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/50">Argynix?</span>
+                            </h2>
+                        </motion.div>
+                        <motion.p
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            transition={{ delay: 0.2, duration: 0.6 }}
+                            viewport={{ once: false }}
+                            className="max-w-2xl mx-auto text-lg text-muted-foreground font-light"
+                        >
+                            We engineer value through innovation. Here is the Argynix edge.
+                        </motion.p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+                        {benefits.map((benefit, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 100,
+                                    damping: 20,
+                                    delay: index * 0.1
+                                }}
+                                viewport={{ once: false, margin: "-50px" }}
+                                whileHover={{ scale: 1.05, y: -5, zIndex: 10 }}
+                                className="group relative"
+                            >
+                                {/* Unique Shape: Tech Chamfer/Tab Style with Clip Path */}
+                                <div
+                                    className="relative h-full bg-card/40 backdrop-blur-sm border-l-4 border-primary/20 hover:border-primary transition-all duration-500 p-8 
+                                                shadow-sm hover:shadow-2xl hover:shadow-primary/10"
+                                    style={{
+                                        clipPath: "polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%)" // Cut bottom-right corner
+                                    }}
+                                >
+
+                                    {/* Animated Borders using pseudo-elements manually simulated since clip-path cuts borders */}
+                                    <div className="absolute top-0 right-0 w-0 h-[2px] bg-primary transition-all duration-500 group-hover:w-full" />
+                                    <div className="absolute bottom-0 left-0 w-0 h-[2px] bg-primary transition-all duration-500 group-hover:w-full" />
+
+                                    {/* Tech Marker in the Cut Corner */}
+                                    {/* Note: This might be clipped if outside content area, so we position it carefully inside or use the background */}
+
+                                    <div className="relative z-10">
+                                        <div className="mb-6 inline-flex p-4 rounded-tl-2xl rounded-br-2xl bg-gradient-to-br from-primary/10 to-transparent border border-primary/10 text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-500 ">
+                                            {benefit.icon}
+                                        </div>
+                                        <h3 className="text-2xl font-bold mb-3 group-hover:text-primary transition-colors">{benefit.title}</h3>
+                                        <p className="text-muted-foreground leading-relaxed group-hover:text-foreground transition-colors">
+                                            {benefit.description}
+                                        </p>
+                                    </div>
+
+                                    {/* Hover glow effect background */}
+                                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+                                    {/* Little decorative corner piece for high-tech feel */}
+                                    <div className="absolute bottom-1 right-1 w-2 h-2 bg-primary/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity delay-300" />
+                                </div>
+                            </motion.div>
+                        ))}
                     </div>
                 </div>
             </section>
 
-
-            <section id="services" className="w-full py-16 md:py-24 bg-background">
-                <div className="container mx-auto max-w-7xl px-4">
-                    <div className="space-y-4 text-center mb-12 animate-in fade-in-up duration-700">
-                        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">What We Do</h2>
+            {/* Services Section - CSS Overrides included below */}
+            <section id="services" className="w-full py-24 bg-secondary/20 relative overflow-hidden">
+                <div className="container mx-auto max-w-7xl px-4 relative z-10">
+                    <div className="space-y-4 text-center mb-16 animate-in fade-in-up duration-700">
+                        <div className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold tracking-widest uppercase mb-2">Capabilities</div>
+                        <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Explore Our Solutions</h2>
                         <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-                            We provide end-to-end services to transform your vision into reality.
+                            Innovative technologies tailored to elevate your business.
                         </p>
                     </div>
 
                     {/* Carousel for services */}
-                    <div className="mt-16 w-full max-w-[1400px] mx-auto">
+                    <div className="w-full max-w-[1400px] mx-auto">
                         <div className="relative">
-                            {/* Background gradient for depth */}
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[500px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
-
                             <FocusCardsCarousel
                                 items={services.map(s => ({
                                     title: s.title,

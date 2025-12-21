@@ -1,172 +1,271 @@
+"use client";
 
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { motion, AnimatePresence } from "motion/react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Briefcase, MapPin, Clock, ArrowRight, Building, Users, Award, Coffee, Heart, Lightbulb } from "lucide-react";
-import type { Metadata } from "next";
+import { Briefcase, MapPin, Clock, ArrowRight, Building, Users, Award, Coffee, Heart, Lightbulb, Zap, Rocket, ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-export const metadata: Metadata = {
-  title: "Careers at Argynix | Join Our Team",
-  description: "Explore career opportunities at Argynix. We're looking for passionate and innovative individuals to join our team and help us build the future of technology. View our open positions.",
-};
-
+// --- Mock Data ---
 const jobOpenings = [
   {
+    id: 1,
     title: "Senior IoT Engineer",
     location: "Erode, TamilNadu (On-site)",
     type: "Full-time",
     category: "Engineering",
+    description: "Lead the development of next-gen IoT architectures. You will interpret sensor data and build resilient systems for industrial scale.",
     href: "#",
   },
   {
+    id: 2,
     title: "Embedded Systems Developer",
     location: "Erode, TamilNadu (On-site)",
     type: "Full-time",
     category: "Engineering",
+    description: "Write ultra-efficient firmware for our custom hardware. Experience with RTOS and low-power constraints is a must.",
     href: "#",
   },
   {
+    id: 3,
     title: "React Native Developer",
     location: "Remote",
     type: "Contract",
     category: "Software",
+    description: "Build intuitive mobile interfaces for controlling our drone swarms and automation hubs.",
     href: "#",
   },
-   {
+  {
+    id: 4,
     title: "Marketing Manager",
     location: "Erode, TamilNadu (Hybrid)",
     type: "Full-time",
     category: "Marketing",
+    description: "Tell the story of Argynix. You will lead our brand strategy and help us reach new markets.",
     href: "#",
   },
 ];
 
 const benefits = [
-    {
-        icon: <Award className="h-8 w-8 text-primary" />,
-        title: "Competitive Salary",
-        description: "We offer competitive compensation packages to attract and retain top talent."
-    },
-    {
-        icon: <Heart className="h-8 w-8 text-primary" />,
-        title: "Health & Wellness",
-        description: "Comprehensive health insurance and programs to support your well-being."
-    },
-    {
-        icon: <Lightbulb className="h-8 w-8 text-primary" />,
-        title: "Continuous Learning",
-        description: "Opportunities for professional development, workshops, and courses."
-    },
-    {
-        icon: <Users className="h-8 w-8 text-primary" />,
-        title: "Collaborative Culture",
-        description: "A supportive and inclusive environment where every voice is heard."
-    },
-     {
-        icon: <Coffee className="h-8 w-8 text-primary" />,
-        title: "Flexible Work",
-        description: "We support flexible work arrangements to help you find work-life balance."
-    },
-    {
-        icon: <Building className="h-8 w-8 text-primary" />,
-        title: "Modern Workplace",
-        description: "A state-of-the-art office designed for creativity and collaboration."
-    },
+  {
+    icon: <Award className="h-6 w-6" />,
+    title: "Competitive Salary",
+    description: "Top-tier compensation packages."
+  },
+  {
+    icon: <Heart className="h-6 w-6" />,
+    title: "Health & Wellness",
+    description: "Comprehensive health coverage."
+  },
+  {
+    icon: <Lightbulb className="h-6 w-6" />,
+    title: "Continuous Learning",
+    description: "Budget for courses and conferences."
+  },
+  {
+    icon: <Users className="h-6 w-6" />,
+    title: "Collaborative Culture",
+    description: "Work with smart, humble people."
+  },
+  {
+    icon: <Coffee className="h-6 w-6" />,
+    title: "Flexible Work",
+    description: "Hybrid and remote options."
+  },
+  {
+    icon: <Rocket className="h-6 w-6" />,
+    title: "High Impact",
+    description: "Build things that matter."
+  },
 ]
+
+// --- Components ---
+
+const HeroSection = () => (
+  <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden bg-background">
+    {/* Background Elements */}
+    <div className="absolute inset-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-background to-background z-0" />
+    
+
+    <div className="container relative z-10 px-4 text-center">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+      >
+        <Badge variant="outline" className="mb-6 px-4 py-1 border-primary/20 bg-primary/5 backdrop-blur-sm">
+          <span className="text-primary font-medium tracking-wide">WE ARE HIRING</span>
+        </Badge>
+        <h1 className="text-5xl md:text-8xl font-black tracking-tighter mb-8 leading-tight">
+          Join the <br className="hidden md:block" />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-black to-secondary animate-gradient-x">
+            Revolution
+          </span>
+        </h1>
+        <p className="max-w-2xl mx-auto text-xl text-muted-foreground mb-10 leading-relaxed">
+          We are building the nervous system of the future. Come solve problems that actually matter.
+        </p>
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Button size="lg" className="rounded-full px-8 text-lg h-14 shadow-lg shadow-primary/20" asChild>
+            <Link href="#open-positions">
+              View Open Roles <ArrowRight className="ml-2 w-5 h-5" />
+            </Link>
+          </Button>
+        </motion.div>
+      </motion.div>
+    </div>
+  </section>
+);
+
+const JobCard = ({ job }: { job: typeof jobOpenings[0] }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="group relative"
+    >
+      <div className={cn(
+        "relative overflow-hidden rounded-2xl border bg-card p-8 transition-all duration-500",
+        isHovered ? "border-primary/50 shadow-2xl shadow-primary/5 translate-y-[-4px]" : "border-border/50 shadow-sm"
+      )}>
+        <div className="flex flex-col md:flex-row justify-between gap-6 relative z-10">
+          <div className="space-y-4 flex-1">
+            <div className="flex items-center gap-3">
+              <Badge variant={isHovered ? "default" : "secondary"} className="transition-colors duration-300">
+                {job.category}
+              </Badge>
+              <span className="text-xs text-muted-foreground font-mono uppercase tracking-wider">{job.type}</span>
+            </div>
+            <h3 className="text-2xl font-bold group-hover:text-primary transition-colors duration-300">
+              {job.title}
+            </h3>
+            <div className="flex items-center text-muted-foreground text-sm">
+              <MapPin className="w-4 h-4 mr-1.5" />
+              {job.location}
+            </div>
+
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: isHovered ? "auto" : 0, opacity: isHovered ? 1 : 0 }}
+              className="overflow-hidden"
+            >
+              <p className="pt-4 text-muted-foreground leading-relaxed">
+                {job.description}
+              </p>
+            </motion.div>
+          </div>
+
+          <div className="flex items-center self-start md:self-center">
+            <Button variant="ghost" size="icon" className="rounded-full w-12 h-12 border border-border group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
+              <ArrowRight className="w-5 h-5" />
+            </Button>
+          </div>
+        </div>
+
+        {/* Decorative Gradient */}
+        <div className={cn(
+          "absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-transparent transition-opacity duration-500 pointer-events-none",
+          isHovered ? "opacity-100" : "opacity-0"
+        )} />
+      </div>
+    </motion.div>
+  );
+};
 
 export default function CareersPage() {
   return (
-    <div className="animate-in fade-in duration-500">
-      <section className="bg-secondary py-20 md:py-28">
-        <div className="container mx-auto max-w-7xl px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">Join Our Team</h1>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-            We're looking for passionate, innovative individuals to help us build the future of technology. Explore our open positions and find your next opportunity.
-          </p>
-        </div>
-      </section>
+    <div className="min-h-screen bg-background selection:bg-primary/20">
 
-      <section id="open-positions" className="py-16 md:py-24">
-        <div className="container mx-auto max-w-7xl px-4">
-          <h2 className="text-3xl font-bold tracking-tight text-center mb-12">Current Openings</h2>
-          <div className="space-y-6">
-            {jobOpenings.map((job) => (
-              <Card key={job.title} className="shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <CardContent className="p-6">
-                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
-                    <div>
-                      <h3 className="text-xl font-semibold hover:text-primary transition-colors">
-                        <Link href={job.href}>{job.title}</Link>
-                      </h3>
-                      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-2 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-2">
-                          <Briefcase className="h-4 w-4" />
-                          <span>{job.type}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <MapPin className="h-4 w-4" />
-                          <span>{job.location}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4 mt-4 sm:mt-0">
-                       <Badge variant="secondary">{job.category}</Badge>
-                       <Button asChild>
-                         <Link href={job.href}>Apply Now <ArrowRight className="ml-2 h-4 w-4" /></Link>
-                       </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-      
-       <section id="benefits" className="w-full py-16 md:py-24 bg-secondary">
-        <div className="container mx-auto max-w-7xl px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Why Work With Us?</h2>
-            <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-              We invest in our people. Here are some of the benefits of joining Argynix.
+      <HeroSection />
+
+      <section id="benefits" className="py-24 bg-secondary/30 relative overflow-hidden">
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+
+        <div className="container relative mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-5xl font-bold mb-6">Why Argynix?</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              We don't just offer jobs; we offer a platform to do your life's best work.
             </p>
-          </div>
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {benefits.map((benefit) => (
-              <Card key={benefit.title} className="text-center p-6 border-0 shadow-lg">
-                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary mb-4">
-                      {benefit.icon}
-                  </div>
-                  <CardHeader>
-                    <CardTitle>{benefit.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground">{benefit.description}</p>
-                  </CardContent>
-              </Card>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {benefits.map((benefit, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                whileHover={{ y: -5 }}
+                className="bg-background/80 backdrop-blur-sm border border-border/50 p-8 rounded-2xl hover:border-primary/30 transition-colors shadow-sm cursor-default"
+              >
+                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-6">
+                  {benefit.icon}
+                </div>
+                <h3 className="text-xl font-bold mb-3">{benefit.title}</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  {benefit.description}
+                </p>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto max-w-7xl px-4">
-           <div className="rounded-lg bg-primary p-8 text-center text-primary-foreground md:p-12">
-                <h2 className="text-3xl font-bold">Don't See a Fit?</h2>
-                <p className="mt-4 max-w-xl mx-auto text-lg">
-                    We're always looking for talented people. Send us your resume and we'll keep you in mind for future roles.
-                </p>
-                <div className="mt-8">
-                    <Button asChild size="lg" variant="secondary">
-                        <Link href="mailto:careers@argynix.com">Submit Your Resume</Link>
-                    </Button>
-                </div>
-            </div>
+      <section id="open-positions" className="py-24 container mx-auto px-4 max-w-5xl">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className="flex items-center justify-between mb-12"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold">Open Positions</h2>
+          <Badge variant="outline" className="px-3 py-1">
+            {jobOpenings.length} Roles Available
+          </Badge>
+        </motion.div>
+
+        <div className="space-y-4">
+          {jobOpenings.map((job) => (
+            <JobCard key={job.id} job={job} />
+          ))}
         </div>
       </section>
 
+      <section className="py-24 container mx-auto px-4">
+        <div className="max-w-4xl mx-auto bg-primary rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-full bg-[url('/assets/noise.png')] opacity-10 mix-blend-overlay" />
+          <div className="relative z-10">
+            <h2 className="text-3xl md:text-5xl font-black text-primary-foreground mb-6">
+              Don't see your role?
+            </h2>
+            <p className="text-primary-foreground/80 text-lg md:text-xl mb-10 max-w-2xl mx-auto">
+              We are always looking for exceptional talent. If you think you can make a difference, we want to hear from you.
+            </p>
+            <Button size="lg" variant="secondary" className="rounded-full px-8 h-14 text-lg font-bold shadow-2xl" asChild>
+              <Link href="mailto:careers@argynix.com">Pitch Yourself</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

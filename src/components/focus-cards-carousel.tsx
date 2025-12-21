@@ -174,24 +174,45 @@ export function FocusCardsCarousel({ items, options }: FocusCardsCarouselProps) 
                             <div className="slide_card transition-all duration-300 ease-out h-full select-none">
                                 {/* Card Design */}
                                 <div
-                                    className="inner_card bg-[#1a1a1a] rounded-3xl p-8 h-full flex flex-col items-center text-center relative border border-white/5 shadow-2xl transition-all duration-300 group/card cursor-pointer"
+                                    className="inner_card bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] rounded-3xl p-8 h-full flex flex-col items-center text-center relative border border-gray-100 transition-all duration-300 group/card cursor-pointer"
                                     onMouseEnter={() => handleHover(index)}
                                 >
-                                    {/* Top Icon Circle */}
-                                    <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center -mt-16 mb-6 border-4 border-primary group-hover:scale-110 transition-transform duration-500">
-                                        <div className="text-primary">
-                                            {item.icon}
+                                    {/* Animated Abstract Background */}
+                                    <div className="absolute inset-0 pointer-events-none">
+                                        {/* Subtle Grid Pattern Overlay */}
+                                        <div className="absolute inset-0 opacity-[0.6] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:16px_16px]" />
+                                    </div>
+                                    {/* Top Icon Circle - Enhanced Design */}
+                                    <div className="relative w-24 h-24 -mt-16 mb-6 group-hover:scale-110 transition-transform duration-500 cubic-bezier(0.34, 1.56, 0.64, 1) z-10">
+                                        {/* Glow/Shadow Layer */}
+                                        <div className="absolute inset-0 bg-white rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] group-hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.2)] transition-shadow duration-500" />
+
+                                        {/* Main Circle */}
+                                        <div className="relative w-full h-full rounded-full bg-white flex items-center justify-center border-[1px] border-black ring-1 ring-black/5 overflow-hidden">
+
+                                            {/* Decorative Background Interaction */}
+                                            <div className="absolute inset-0 bg-gradient-to-tr from-black/0 via-black/0 to-black/0 group-hover:bg-black/[3] transition-colors duration-500" />
+
+                                            {/* Icon - Always Black */}
+                                            <div className="relative text-black">
+                                                {item.icon}
+                                            </div>
+                                        </div>
+
+                                        {/* Floating Badge/Accent (Optional Tech Detail) */}
+                                        <div className="absolute bottom-0 right-0 w-6 h-6 bg-black rounded-full border-4 border-[#d9d9d9] flex items-center justify-center transform scale-0 group-hover:scale-100 transition-transform duration-300 delay-100">
+                                            <div className="w-1.5 h-1.5 bg-white rounded-full" />
                                         </div>
                                     </div>
 
-                                    <h3 className="text-2xl font-bold text-white mb-3">{item.title}</h3>
-                                    <p className="text-gray-400 mb-8 line-clamp-3 text-sm leading-relaxed">
+                                    <h3 className="text-2xl font-bold text-neutral-900 mb-3">{item.title}</h3>
+                                    <p className="text-neutral-600 mb-8 line-clamp-3 text-sm leading-relaxed font-medium">
                                         {item.description}
                                     </p>
 
                                     <div className="mt-auto w-full">
                                         <Link href={item.href} className="w-full">
-                                            <Button className="w-full bg-white text-black hover:bg-gray-200 rounded-xl py-6 font-semibold shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(255,255,255,0.2)] transition-shadow">
+                                            <Button className="w-full bg-neutral-900 text-white hover:bg-neutral-800 rounded-xl py-6 font-semibold shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5">
                                                 View More
                                             </Button>
                                         </Link>
