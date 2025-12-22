@@ -41,10 +41,10 @@ const ceoSubordinates: TeamMember[] = [
 
 const teamMembers: TeamMember[] = [
   {
-    name: "Karthi C",
+    name: "Mohan P",
     role: "Hardware Engineer Chief",
     department: "Hardware",
-    image: "/assets/about/karthi.jpg",
+    image: "/assets/about/Mohan.jpeg",
     bio: "Expert in circuit design and embedded systems architecture.",
     subordinates: hardwareSubordinates
   },
@@ -57,10 +57,10 @@ const teamMembers: TeamMember[] = [
     subordinates: ceoSubordinates
   },
   {
-    name: "Karthi C",
+    name: "Kavineshan K",
     role: "Software Engineer Chief",
     department: "Software",
-    image: "/assets/about/karthi.jpg",
+    image: "/assets/about/Kavineshan.jpeg",
     bio: "Architecting scalable cloud solutions and intelligent edge computing.",
     subordinates: softwareSubordinates
   },
@@ -183,7 +183,7 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.2, duration: 0.8 }}
                 whileHover={{ y: -10 }}
-                className="group relative p-10 rounded-2xl bg-secondary/80 border border-border/80 hover:border-primary/80 transition-all duration-300 hover:shadow-lg flex flex-col items-center"
+                className="group relative p-6 md:p-10 rounded-2xl bg-secondary/80 border border-border/80 hover:border-primary/80 transition-all duration-300 hover:shadow-lg flex flex-col items-center"
               >
                 <div className="mb-8 relative w-100% h-100% size-100%">
                   <div className="absolute inset-0 bg-primary/10 blur-3xl rounded-full scale-0 group-hover:scale-150 transition-transform duration-700"></div>
@@ -224,7 +224,8 @@ export default function AboutPage() {
 
               const isCEO = member.role.includes("CEO");
               const orderClass = i === 1 ? "md:order-2 md:-mb-12 z-20" : (i === 0 ? "md:order-1" : "md:order-3");
-              const sizeClass = isCEO ? "max-w-md w-full md:scale-110" : "max-w-sm w-full opacity-90 hover:opacity-100";
+              // Fix: ensure scale is only on md, reset on mobile. Add margin bottom for mobile stacking.
+              const sizeClass = isCEO ? "max-w-md w-full md:scale-110 mb-8 md:mb-0" : "max-w-sm w-full opacity-90 hover:opacity-100 mb-8 md:mb-0";
 
               return (
                 <motion.div
@@ -242,7 +243,8 @@ export default function AboutPage() {
                 >
                   <div className={cn(
                     "relative overflow-hidden rounded-xl bg-background border border-border shadow-md transition-all duration-500 hover:shadow-2xl hover:border-primary",
-                    isCEO ? "h-[500px] border-primary/20 ring-1 ring-primary/10" : "h-[450px]"
+                    // Responsiveness: h-auto aspect-[3/4] for mobile, fixed height for desktop
+                    isCEO ? "h-[400px] md:h-[500px] border-primary/20 ring-1 ring-primary/10" : "h-[350px] md:h-[450px]"
                   )}>
                     {/* Image */}
                     <Image
@@ -253,21 +255,41 @@ export default function AboutPage() {
                     />
 
                     {/* Overlay Info */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-8 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                      <h3 className={cn("font-bold text-white mb-1", isCEO ? "text-4xl" : "text-3xl")}>{member.name}</h3>
-                      <p className="text-primary font-medium tracking-wider uppercase text-sm mb-4 flex items-center gap-2">
+                    <div
+                      className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent
+             flex flex-col justify-end p-6
+             translate-y-12 md:translate-y-20
+             group-hover:translate-y-0
+             transition-transform duration-500"
+                    >
+                      <h3
+                        className={cn(
+                          "font-bold text-white",
+                          isCEO ? "text-3xl md:text-4xl" : "text-2xl md:text-3xl"
+                        )}
+                      >
+                        {member.name}
+                      </h3>
+
+                      <p className="text-gray-100 font-medium tracking-wider uppercase text-xs md:text-sm mb-1 flex items-center gap-2">
                         {member.role} {isCEO && <CheckCircle size={16} />}
                       </p>
-                      {!isCEO && <p className="text-white/80 font-medium tracking-wider text-xs mb-4">{member.department}</p>}
-                      <p className="text-slate-300 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 line-clamp-3">
+
+                      {/* Reserve space so layout height is consistent */}
+                      <p className="text-white/80 font-medium tracking-wider text-[10px] md:text-xs mb-2 opacity-0">
+                        placeholder
+                      </p>
+
+                      <p
+                        className="text-slate-300 text-xs md:text-sm leading-relaxed
+               opacity-0 group-hover:opacity-100
+               transition-opacity duration-500 md:delay-100
+               line-clamp-3"
+                      >
                         {member.bio}
                       </p>
-                      <div className="mt-4 pt-4 border-t border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
-                        <span className="text-xs text-secondary-foreground/80 flex items-center gap-1 group-hover:text-primary transition-colors">
-                          View Subordinates <ArrowRight size={12} />
-                        </span>
-                      </div>
                     </div>
+
                   </div>
                 </motion.div>
               );
@@ -276,7 +298,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 5. CTA Section - Consistent Primary Brand Color */}
+
       <section className="py-24 bg-primary relative overflow-hidden">
         <div className="absolute inset-0 bg-black/5 pattern-grid-lg opacity-10"></div>
         <div className="container relative z-10 px-4 text-center">

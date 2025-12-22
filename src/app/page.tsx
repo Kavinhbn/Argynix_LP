@@ -128,14 +128,19 @@ const projects = [
         description: "City-wide sensor network for real-time traffic and energy management."
     }
 ];
+const clients = [
+    {
+        name: "Frontline",
+        logo: "/assets/clients/frontline.webp"
+    },
+    {
+        name: "Solid_construction",
+        logo: "/assets/clients/logo.png"
+    },
 
-const trustProofs = [
-    { name: "TechCorp", logo: "TC" },
-    { name: "InnovateX", logo: "IX" },
-    { name: "FutureSystems", logo: "FS" },
-    { name: "GlobalGrid", logo: "GG" },
-    { name: "AutoMotive", logo: "AM" },
-];
+]
+
+
 
 
 const GlobeAnimation = () => (
@@ -179,7 +184,7 @@ const AnimatedGrid = () => (
     </div>
 );
 
-import { FocusCardsCarousel } from "@/components/focus-cards-carousel"
+
 import { RevealText } from "@/components/ui/reveal-text"
 
 export default function Home() {
@@ -237,7 +242,7 @@ export default function Home() {
                                     Building Tomorrow's <br className="hidden md:block" />
                                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-black to-secondary animate-gradient-x">
                                         Connected World
-                                    </span> 
+                                    </span>
                                 </h1>
                             </RevealText>
                             <div className="max-w-xl text-lg text-muted-foreground md:text-xl">
@@ -443,106 +448,81 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Services Section - CSS Overrides included below */}
-            <section id="services" className="w-full py-24 bg-secondary/20 relative overflow-hidden">
-                <div className="container mx-auto max-w-7xl px-4 relative z-10">
-                    <div className="space-y-4 text-center mb-16 animate-in fade-in-up duration-700">
-                        <div className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold tracking-widest uppercase mb-2">Capabilities</div>
-                        <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Explore Our Solutions</h2>
-                        <p className="max-w-2xl mx-auto text-lg text-muted-foreground">
-                            Innovative technologies tailored to elevate your business.
-                        </p>
-                    </div>
-
-                    {/* Carousel for services */}
-                    <div className="w-full max-w-[1400px] mx-auto">
-                        <div className="relative">
-                            <FocusCardsCarousel
-                                items={services.map(s => ({
-                                    title: s.title,
-                                    description: s.description,
-                                    icon: s.icon,
-                                    href: s.href
-                                }))}
-                            />
-                        </div>
-                    </div>
-
-                    {/* Custom animations */}
-                    <style jsx>{`
-                        @keyframes float {
-                          0%, 100% {
-                            transform: translateY(0) translateX(0);
-                          }
-                          25% {
-                            transform: translateY(-20px) translateX(10px);
-                          }
-                          50% {
-                            transform: translateY(-10px) translateX(-15px);
-                          }
-                          75% {
-                            transform: translateY(-30px) translateX(5px);
-                          }
-                        }
-
-                        @keyframes ripple {
-                          0% {
-                            transform: scale(0.8);
-                            opacity: 0.3;
-                          }
-                          100% {
-                            transform: scale(1.5);
-                            opacity: 0;
-                          }
-                        }
-                        
-                        /* Carousel item entrance animations */
-                        @keyframes carouselEnterLeft {
-                          0% {
-                            transform: translateX(-50px) rotate(-5deg);
-                            opacity: 0;
-                          }
-                          100% {
-                            transform: translateX(0) rotate(0);
-                            opacity: 1;
-                          }
-                        }
-                        
-                        @keyframes carouselEnterRight {
-                          0% {
-                            transform: translateX(50px) rotate(5deg);
-                            opacity: 0;
-                          }
-                          100% {
-                            transform: translateX(0) rotate(0);
-                            opacity: 1;
-                          }
-                        }
-                        
-                        @keyframes carouselEnterBottom {
-                          0% {
-                            transform: translateY(50px) scale(0.9);
-                            opacity: 0;
-                          }
-                          100% {
-                            transform: translateY(0) scale(1);
-                            opacity: 1;
-                          }
-                        }
-                        
-                        .carousel-content > div:nth-child(3n+1) {
-                          animation: carouselEnterLeft 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-                        }
-                        
-                        .carousel-content > div:nth-child(3n+2) {
-                          animation: carouselEnterBottom 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-                        }
-                        
-                        .carousel-content > div:nth-child(3n+3) {
-                          animation: carouselEnterRight 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-                        }
-                      `}</style>
+            {/* Trusted Partners Section - Infinite Marquee */}
+            <section className="w-full py-5 bg-secondary/20 border-y border-white/5 relative overflow-hidden">
+                <div className="container mx-auto max-w-7xl px-4 text-center mb-16">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: false }}
+                        className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold tracking-widest uppercase mb-4"
+                    >
+                        Our Ecosystem
+                    </motion.div>
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 }}
+                        viewport={{ once: false }}
+                        className="text-3xl md:text-5xl font-black tracking-tight mb-4"
+                    >
+                        Trusted by Leading <span className="text-primary">Innovators</span>
+                    </motion.h2>
                 </div>
+
+                {/* Infinite Marquee Container */}
+                <div className="relative w-full overflow-hidden">
+                    {/* Gradient Masks for Fade Effect */}
+                    <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-secondary to-transparent z-10" />
+                    <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-secondary to-transparent z-10" />
+
+                   
+                    <div className="flex w-max animate-marquee">
+                        {/* Repeat the logos multiple times to ensure seamless infinite loop 
+                            Since we only have 2 clients, we need significantly more duplicates to fill the width */ }
+                        {[...Array(10)].map((_, setIndex) => (
+                            <div key={setIndex} className="flex items-center gap-6 mx-4">
+                                {clients.map((client, i) => (
+                                    <div key={i} className="relative group cursor-pointer">
+                                        <div className="w-80 h-60 bg-white/5 rounded-xl border border-white/10 flex items-center justify-center grayscale hover:grayscale-0 opacity-90 hover:opacity-100 transition-all duration-300 hover:bg-white/10 hover:border-primary/30 hover:scale-105 hover:shadow-[0_0_20px_rgba(var(--primary-rgb),0.2)] p-4">
+                                            <div className="relative w-full h-full flex items-center justify-center">
+                                                <Image
+                                                    src={client.logo}
+                                                    alt={client.name}
+                                                    width={240}
+                                                    height={160}
+                                                    className="object-contain w-full h-full filter group-hover:brightness-110 transition-all duration-300"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Animation Styles */}
+                <style jsx global>{`
+                    @keyframes marquee {
+                        0% { transform: translateX(0); }
+                        100% { transform: translateX(-50%); }
+                    }
+                    .animate-marquee {
+                        animation: marquee 40s linear infinite;
+                    }
+                    .animate-marquee:hover {
+                        animation-play-state: paused;
+                    }
+                    
+                    /* Keep existing animations if needed, otherwise clean up */
+                    @keyframes float {
+                        0%, 100% { transform: translateY(0) translateX(0); }
+                        25% { transform: translateY(-20px) translateX(10px); }
+                        50% { transform: translateY(-10px) translateX(-15px); }
+                        75% { transform: translateY(-30px) translateX(5px); }
+                    }
+                `}</style>
             </section>
 
 
