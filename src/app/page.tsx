@@ -131,11 +131,11 @@ const projects = [
 const clients = [
     {
         name: "Frontline",
-        logo: "/assets/clients/frontline.webp"
+        logo: "/assets/clients/Frontline.webp"
     },
     {
         name: "Solid_construction",
-        logo: "/assets/clients/logo.png"
+        logo: "/assets/clients/Logo.png"
     },
 
 ]
